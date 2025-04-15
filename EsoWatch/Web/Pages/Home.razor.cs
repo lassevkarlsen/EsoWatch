@@ -36,7 +36,7 @@ public partial class Home : IDisposable
         _characters.Clear();
         _characters.AddRange(await dbContext.Characters.OrderBy(c => c.Name).ToListAsync(cancellationToken: cancellationToken));
         _timers.Clear();
-        _timers.AddRange(await dbContext.Timers.OrderBy(t => t.ElapsesAt).ToListAsync(cancellationToken: cancellationToken));
+        _timers.AddRange(await dbContext.Timers.OrderBy(t => t.ElapsesAt).ThenBy(t => t.Duration).ToListAsync(cancellationToken: cancellationToken));
     }
 
     private async Task RefreshPeriodicallyAsync(CancellationToken cancellationToken)

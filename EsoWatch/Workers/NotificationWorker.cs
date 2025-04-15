@@ -46,10 +46,11 @@ public class NotificationWorker : BackgroundService
         DateTime now = DateTime.UtcNow;
         foreach (GenericTimer timer in await dbContext.Timers.ToListAsync(stoppingToken))
         {
-            if (timer.ElapsesAt < now)
+            if (timer.ElapsesAt < now && !timer.NotificationSent)
             {
                 await _pushover.SendAsync($"Timer '{timer.Name}' has elapsed!", stoppingToken);
-                dbContext.Timers.Remove(timer);
+                timer.ElapsesAt = null;
+                timer.NotificationSent = true;
             }
         }
 

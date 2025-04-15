@@ -6,14 +6,14 @@
 <RadzenFieldset Text="Characters">
     @foreach (EsoCharacter character in _characters)
     {
-        <RenderCharacter Character="character"/>
+        <RenderCharacter Character="character" />
     }
     <RadzenButton Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
 </RadzenFieldset>
 <RadzenFieldset Text="Timers">
     @foreach (GenericTimer timer in _timers)
     {
-        <RenderTimer Timer="timer"/>
+        <RenderTimer Timer="timer" />
     }
     <RadzenButton Icon="add" Text="Add timer" Click="AddNewTimer" Size="ButtonSize.ExtraSmall"/>
 </RadzenFieldset>

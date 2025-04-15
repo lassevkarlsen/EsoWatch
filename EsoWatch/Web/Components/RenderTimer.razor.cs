@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 
 using Radzen;
+using Radzen.Blazor;
 
 namespace EsoWatch.Web.Components;
 
@@ -24,7 +25,7 @@ public partial class RenderTimer : ComponentBase
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
     }
 
-    private string TimeLeft() => TimeLeftFormatter.Format(Timer!.ElapsesAt - DateTime.UtcNow);
+    private string TimeLeft() => TimeLeftFormatter.Format(Timer!.ElapsesAt!.Value - DateTime.UtcNow);
 
     private async Task DeleteTimerAsync()
     {
@@ -43,5 +44,56 @@ public partial class RenderTimer : ComponentBase
 
             Timer = null;
         }
+    }
+
+    private async Task OnClick(RadzenSplitButtonItem? arg)
+    {
+        Assume.That(Timer != null);
+
+        switch (arg?.Value)
+        {
+            case null:
+                if (Timer.ElapsesAt == null)
+                {
+                    await RestartTimerAsync();
+                }
+
+                break;
+
+            case "stop":
+                await StopTimerAsync();
+                break;
+
+            case "restart":
+                await RestartTimerAsync();
+                break;
+
+            case "delete":
+                await DeleteTimerAsync();
+                break;
+        }
+        StateHasChanged();
+    }
+
+    private async Task RestartTimerAsync()
+    {
+        Assume.That(Timer != null);
+
+        await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+        dbContext.Attach(Timer);
+        Timer.ElapsesAt = DateTime.UtcNow + Timer.Duration;
+        Timer.NotificationSent = false;
+        await dbContext.SaveChangesAsync();
+    }
+
+    private async Task StopTimerAsync()
+    {
+        Assume.That(Timer != null);
+
+        await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+        dbContext.Attach(Timer);
+        Timer.ElapsesAt = null;
+        Timer.NotificationSent = true;
+        await dbContext.SaveChangesAsync();
     }
 }

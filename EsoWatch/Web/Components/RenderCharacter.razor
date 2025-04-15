@@ -4,7 +4,7 @@
         @{
             bool available = Character.DungeonRewardsAvailableAt == null || Character.DungeonRewardsAvailableAt <= DateTime.UtcNow;
         }
-        <RadzenSplitButton Text="@(available ? "LOOT" : TimeLeft())" Click="OnClick" Style="width: 160px;">
+        <RadzenSplitButton ButtonStyle="@(available ? ButtonStyle.Primary : ButtonStyle.Danger)" Text="@(available ? "LOOT" : TimeLeft())" Click="OnClick" Style="width: 200px;">
             <ChildContent>
                 <RadzenSplitButtonItem Text="Delete character" Value="delete" />
                 @if (!available)

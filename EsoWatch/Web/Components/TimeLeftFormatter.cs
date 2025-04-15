@@ -18,40 +18,22 @@ public static class TimeLeftFormatter
             sb.Append($"{timeLeft.Days}D");
         }
 
+        if (timeLeft.Hours == 0 && timeLeft.Minutes == 0 && timeLeft.Seconds == 0)
+        {
+            return sb.ToString();
+        }
+
+        if (sb.Length > 0)
+        {
+            sb.Append(' ');
+        }
+
         if (timeLeft.Hours > 0)
         {
-            if (sb.Length > 0)
-            {
-                sb.Append(' ');
-            }
-
-            if (timeLeft.Hours > 1 && timeLeft.Minutes >= 15)
-            {
-                sb.Append($"{timeLeft.Hours + 1}H");
-            }
-            else
-            {
-                sb.Append($"{timeLeft.Hours}H");
-            }
+            sb.Append($"{timeLeft.Hours:00}:");
         }
 
-        if (timeLeft is { Days: 0, Hours: < 2 })
-        {
-            if (sb.Length > 0)
-            {
-                sb.Append(' ');
-            }
-            sb.Append($"{timeLeft.Minutes}M");
-        }
-
-        if (timeLeft is { Days: 0, Hours: 0, Minutes: < 10 })
-        {
-            if (sb.Length > 0)
-            {
-                sb.Append(' ');
-            }
-            sb.Append($"{timeLeft.Seconds}S");
-        }
+        sb.Append($"{timeLeft.Minutes:00}:{timeLeft.Seconds:00}");
 
         return sb.ToString();
     }

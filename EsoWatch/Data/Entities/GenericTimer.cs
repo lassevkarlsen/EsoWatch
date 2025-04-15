@@ -12,7 +12,7 @@ public class GenericTimer
     [MaxLength(50)]
     public required string Name { get; set; }
 
-    public required DateTime ElapsesAt { get; set; }
+    public DateTime? ElapsesAt { get; set; }
 
     public required TimeSpan Duration { get; set; }
     public bool NotificationSent { get; set; }
