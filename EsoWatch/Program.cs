@@ -32,7 +32,7 @@ if (!host.Environment.IsDevelopment())
 {
     host.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    host.UseHsts();
+    // host.UseHsts();
 }
 
 host.UseHttpsRedirection();
@@ -45,7 +45,7 @@ host.UseHttpsRedirection();
     await dbContext.Database.MigrateAsync();
 }
 
-host.UseAntiforgery();
+// host.UseAntiforgery();
 
 host.MapStaticAssets();
 host.MapRazorComponents<App>()
