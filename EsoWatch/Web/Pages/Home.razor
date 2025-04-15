@@ -22,7 +22,7 @@ else
 {
     @if (_userSettings != null)
     {
-        <RadzenButton Icon="construction" Text="@_userSettings.Title" Click="Configure" Size="ButtonSize.ExtraSmall" Style="margin-bottom: 8px;"/>
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="construction" Text="@_userSettings.Title" Click="Configure" Size="ButtonSize.ExtraSmall" Style="margin-bottom: 8px;"/>
     }
 
     <RadzenFieldset Text="Characters">
@@ -30,7 +30,7 @@ else
         {
             <RenderCharacter Character="character"/>
         }
-        <RadzenButton Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
     </RadzenFieldset>
 
     <RadzenFieldset Text="Timers">
@@ -38,6 +38,6 @@ else
         {
             <RenderTimer Timer="timer"/>
         }
-        <RadzenButton Icon="add" Text="Add timer" Click="AddNewTimer" Size="ButtonSize.ExtraSmall"/>
+        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="add" Text="Add timer" Click="AddNewTimer" Size="ButtonSize.ExtraSmall"/>
     </RadzenFieldset>
 }
