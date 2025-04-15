@@ -20,8 +20,8 @@ jobs:
 
           /home/lassevk/.dotnet/dotnet build ./EsoWatch.sln
 
-          #sudo systemctl stop xboxcaptures
-          #rsync -auv --exclude appsettings.json ./XboxCaptures/bin/Release/net9.0/* /home/lassevk/Apps/XboxCaptures
-          #sudo systemctl start xboxcaptures
+          sudo systemctl stop esowatch
+          /home/lassevk/.dotnet/dotnet publish EsoWatch/EsoWatch.csproj -o ./run
+          sudo systemctl start esowatch
 
-          #pushover "XboxCaptures Deployed"
+          #pushover "EsoWatch Deployed"
