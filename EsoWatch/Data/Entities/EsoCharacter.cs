@@ -18,6 +18,7 @@ public class EsoCharacter
     public required string Name { get; set; }
 
     public DateTime? DungeonRewardsAvailableAt { get; set; }
+    public bool NotificationSent { get; set; }
 
     [Required]
     public required Guid UserId { get; set; }

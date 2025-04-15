@@ -66,10 +66,10 @@ public class NotificationWorker : BackgroundService
             await _pushover.SendAsync(notification, stoppingToken);
         }
 
-        List<EsoCharacter> elapsedCharacterTimers = await dbContext.Characters.Where(c => c.DungeonRewardsAvailableAt == null || c.DungeonRewardsAvailableAt <= now).ToListAsync(stoppingToken);
+        List<EsoCharacter> elapsedCharacterTimers = await dbContext.Characters.Where(c => c.DungeonRewardsAvailableAt != null && c.DungeonRewardsAvailableAt <= now && !c.NotificationSent).ToListAsync(stoppingToken);
         foreach (EsoCharacter character in elapsedCharacterTimers)
         {
-            character.DungeonRewardsAvailableAt = null;
+            character.NotificationSent = true;
 
             if (!usersWithPushover.TryGetValue(character.UserId, out UserSettings? userSettings))
             {

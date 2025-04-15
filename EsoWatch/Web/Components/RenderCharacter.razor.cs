@@ -27,9 +27,12 @@ public partial class RenderCharacter : ComponentBase
 
     private async Task CharacterLootedAsync()
     {
+        Assume.That(Character != null);
+
         await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
         dbContext.Attach(Character!);
-        Character!.DungeonRewardsAvailableAt = DateTime.UtcNow.AddHours(20);
+        Character.DungeonRewardsAvailableAt = DateTime.UtcNow.AddHours(20);
+        Character.NotificationSent = false;
         await dbContext.SaveChangesAsync();
     }
 
@@ -67,6 +70,7 @@ public partial class RenderCharacter : ComponentBase
             await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
             dbContext.Attach(Character);
             Character.DungeonRewardsAvailableAt = null;
+            Character.NotificationSent = true;
             await dbContext.SaveChangesAsync();
         }
     }
