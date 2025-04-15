@@ -3,6 +3,11 @@
 @using EsoWatch.Data.Entities
 @using EsoWatch.Web.Components
 
+@if (_userSettings != null)
+{
+    <PageTitle>ESO Timers: @_userSettings.Title</PageTitle>
+}
+
 <h3>ESO Timers</h3>
 @if (UserId == null) {
     <p>This site runs on a very light-weight authentication system for the time being.</p>

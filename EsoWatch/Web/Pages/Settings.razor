@@ -1,6 +1,11 @@
 ﻿@page "/settings/{UserId:guid}"
 @using EsoWatch.Web.Dialogs
 
+@if (_model != null)
+{
+    <PageTitle>ESO Timers: @_model.Settings.Title</PageTitle>
+}
+
 <h3>ESO Timers : Settings</h3>
 
 @if (_model != null)
