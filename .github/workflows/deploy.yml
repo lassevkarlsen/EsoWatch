@@ -1,0 +1,28 @@
+﻿name: Build and deploy
+
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  DOTNET_SDK_VERSION: '9.0.x'
+  DOTNET_TFM: 'net9.0'
+
+jobs:
+  build-and-test:
+    runs-on: [self-hosted, linux, ARM64, gandalf]
+    steps:
+      - name: Deploy
+        shell: pwsh
+        run: |
+          cd /home/lassevk/Apps/EsoWatch
+          git fetch
+          git merge --ff-only
+
+          /home/lassevk/.dotnet/dotnet build ./EsoWatch.sln
+
+          #sudo systemctl stop xboxcaptures
+          #rsync -auv --exclude appsettings.json ./XboxCaptures/bin/Release/net9.0/* /home/lassevk/Apps/XboxCaptures
+          #sudo systemctl start xboxcaptures
+
+          #pushover "XboxCaptures Deployed"
