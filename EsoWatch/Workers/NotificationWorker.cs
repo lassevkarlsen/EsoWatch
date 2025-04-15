@@ -43,26 +43,46 @@ public class NotificationWorker : BackgroundService
     {
         await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync(stoppingToken);
 
+        var usersWithPushover = (await dbContext.UserSettings.Where(u => u.UsePushover && u.PushoverUserKey != null && u.PushoverUserKey != "").ToListAsync(stoppingToken)).ToDictionary(u => u.UserId);
+
         DateTime now = DateTime.UtcNow;
-        foreach (GenericTimer timer in await dbContext.Timers.ToListAsync(stoppingToken))
+        List<GenericTimer> elapsedTimers = await dbContext.Timers.Where(t => t.ElapsesAt != null && t.ElapsesAt < now && !t.NotificationSent).ToListAsync(stoppingToken);
+        foreach (GenericTimer timer in elapsedTimers)
         {
-            if (timer.ElapsesAt < now && !timer.NotificationSent)
+            timer.ElapsesAt = null;
+            timer.NotificationSent = true;
+
+            if (!usersWithPushover.TryGetValue(timer.UserId, out UserSettings? userSettings))
             {
-                await _pushover.SendAsync($"Timer '{timer.Name}' has elapsed!", stoppingToken);
-                timer.ElapsesAt = null;
-                timer.NotificationSent = true;
+                continue;
             }
+
+            var notification = new PushoverNotification
+            {
+                Message = $"Timer '{timer.Name}' has elapsed!",
+                TargetUser = userSettings.PushoverUserKey,
+            };
+            await dbContext.SaveChangesAsync(stoppingToken);
+            await _pushover.SendAsync(notification, stoppingToken);
         }
 
-        foreach (EsoCharacter character in await dbContext.Characters.ToListAsync(stoppingToken))
+        List<EsoCharacter> elapsedCharacterTimers = await dbContext.Characters.Where(c => c.DungeonRewardsAvailableAt == null || c.DungeonRewardsAvailableAt <= now).ToListAsync(stoppingToken);
+        foreach (EsoCharacter character in elapsedCharacterTimers)
         {
-            if (character.DungeonRewardsAvailableAt != null && character.DungeonRewardsAvailableAt < now)
-            {
-                await _pushover.SendAsync($"Character '{character.Name}' can get dungeon bonus loot now!", stoppingToken);
-                character.DungeonRewardsAvailableAt = null;
-            }
-        }
+            character.DungeonRewardsAvailableAt = null;
 
-        await dbContext.SaveChangesAsync(stoppingToken);
+            if (!usersWithPushover.TryGetValue(character.UserId, out UserSettings? userSettings))
+            {
+                continue;
+            }
+
+            var notification = new PushoverNotification
+            {
+                Message = $"Character '{character.Name}' can get dungeon bonus loot now!",
+                TargetUser = userSettings.PushoverUserKey,
+            };
+            await dbContext.SaveChangesAsync(stoppingToken);
+            await _pushover.SendAsync(notification, stoppingToken);
+        }
     }
 }

@@ -14,10 +14,10 @@ public partial class Settings
         {
             if (!Settings.UsePushover)
             {
-                return true;
+                return false;
             }
 
-            return Settings.PushoverUserKey?.Length == 30;
+            return Settings.PushoverUserKey?.Length != 32;
         }
     }
 }

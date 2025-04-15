@@ -18,7 +18,7 @@
             </RadzenStack>
             @if (_model.Settings.UsePushover)
             {
-                <RadzenTextBox Name="PushoverKey" @bind-Value="_model.Settings.PushoverUserKey" ReadOnly="@(!_model.Settings.UsePushover)" Style="width: 420px;"/>
+                <RadzenTextBox Name="PushoverKey" Placeholder="Your pushover user key" @bind-Value="_model.Settings.PushoverUserKey" ReadOnly="@(!_model.Settings.UsePushover)" Style="width: 420px;"/>
 
                 <RadzenCustomValidator Component="PushoverKey" Validator="_model.IsPushoverkeyValid" Text="Not a valid pushover key"/>
             }
