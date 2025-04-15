@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace EsoWatch.Data.Entities;
 
 using System.ComponentModel.DataAnnotations;
 
+[Index(nameof(UserId), IsUnique = false)]
 public class EsoCharacter
 {
     [Key]
@@ -15,4 +18,7 @@ public class EsoCharacter
     public required string Name { get; set; }
 
     public DateTime? DungeonRewardsAvailableAt { get; set; }
+
+    [Required]
+    public required Guid UserId { get; set; }
 }

@@ -1,8 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace EsoWatch.Data.Entities;
 
+[Index(nameof(UserId), IsUnique = false)]
 public class GenericTimer
 {
     [Key]
@@ -16,4 +19,7 @@ public class GenericTimer
 
     public required TimeSpan Duration { get; set; }
     public bool NotificationSent { get; set; }
+
+    [Required]
+    public required Guid UserId { get; set; }
 }

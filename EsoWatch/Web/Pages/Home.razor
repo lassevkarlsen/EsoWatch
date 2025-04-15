@@ -1,19 +1,39 @@
-﻿@page "/"
+﻿@page "/{UserId:guid}"
+@page "/"
 @using EsoWatch.Data.Entities
 @using EsoWatch.Web.Components
-@using AddCharacterDialog = EsoWatch.Web.Dialogs.AddCharacterDialog
 
-<RadzenFieldset Text="Characters">
-    @foreach (EsoCharacter character in _characters)
-    {
-        <RenderCharacter Character="character" />
-    }
-    <RadzenButton Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
-</RadzenFieldset>
-<RadzenFieldset Text="Timers">
-    @foreach (GenericTimer timer in _timers)
-    {
-        <RenderTimer Timer="timer" />
-    }
-    <RadzenButton Icon="add" Text="Add timer" Click="AddNewTimer" Size="ButtonSize.ExtraSmall"/>
-</RadzenFieldset>
+<h2>ESO Timers</h2>
+@if (UserId == null) {
+    <p>This site runs on a very light-weight authentication system for the time being.</p>
+    <p>Since you're visiting it without a user-id, you're seeing this text instead of the actual site.</p>
+    <p>Here is your unique link that you can use. <b><u>This is you!</u></b></p>
+    <p><b>REMEMBER TO BOOKMARK THIS LINK!</b></p>
+
+    string localPath = "/" + _freshUserId;
+    string fullPath = "https://eso.vkarlsen.no/" + _freshUserId;
+
+    <p>
+    <RadzenLink Path="@localPath" Text="@fullPath" Target="_blank" />
+    </p>
+
+    <i>(this link will open in a new tab so that you don't immediately lose it - <b>remember to bookmark!</b>.</i>
+}
+else
+{
+    <RadzenFieldset Text="Characters">
+        @foreach (EsoCharacter character in _characters)
+        {
+            <RenderCharacter Character="character"/>
+        }
+        <RadzenButton Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
+    </RadzenFieldset>
+
+    <RadzenFieldset Text="Timers">
+        @foreach (GenericTimer timer in _timers)
+        {
+            <RenderTimer Timer="timer"/>
+        }
+        <RadzenButton Icon="add" Text="Add timer" Click="AddNewTimer" Size="ButtonSize.ExtraSmall"/>
+    </RadzenFieldset>
+}

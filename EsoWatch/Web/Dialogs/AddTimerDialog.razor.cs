@@ -9,6 +9,9 @@ namespace EsoWatch.Web.Dialogs;
 
 public partial class AddTimerDialog : ComponentBase
 {
+    [Parameter]
+    public Guid UserId { get; set; }
+
     private readonly DialogService _dialogService;
 
     private readonly Model _model = new();

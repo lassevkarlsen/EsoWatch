@@ -10,6 +10,9 @@ namespace EsoWatch.Web.Dialogs;
 
 public partial class AddCharacterDialog : ComponentBase
 {
+    [Parameter]
+    public Guid UserId { get; set; }
+
     private readonly DialogService _dialogService;
     private readonly IDbContextFactory<EsoDbContext> _dbContextFactory;
 
@@ -41,6 +44,6 @@ public partial class AddCharacterDialog : ComponentBase
     {
         using EsoDbContext dbContext = _dbContextFactory.CreateDbContext();
         string name = _model.Name.Trim().ToLower();
-        return !dbContext.Characters.Any(c => c.Name.Trim().ToLower() == name);
+        return !dbContext.Characters.Any(c => c.Name.Trim().ToLower() == name && c.UserId == UserId);
     }
 }
