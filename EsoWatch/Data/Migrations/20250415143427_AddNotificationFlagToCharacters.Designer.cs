@@ -3,6 +3,7 @@ using System;
 using EsoWatch.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EsoWatch.Data.Migrations
 {
     [DbContext(typeof(EsoDbContext))]
-    partial class EsoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250415143427_AddNotificationFlagToCharacters")]
+    partial class AddNotificationFlagToCharacters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
