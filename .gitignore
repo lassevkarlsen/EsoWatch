@@ -400,3 +400,6 @@ FodyWeavers.xsd
 
 # MacOS Files
 .DS_Store
+
+# Local deployment
+/run
