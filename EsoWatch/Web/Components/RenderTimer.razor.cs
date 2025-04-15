@@ -103,6 +103,7 @@ public partial class RenderTimer : ComponentBase
         await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
         dbContext.Attach(Timer);
         Timer.ElapsesAt = DateTime.UtcNow + Timer.Duration;
+        Timer.Remaining = null;
         Timer.NotificationSent = false;
         await dbContext.SaveChangesAsync();
     }
@@ -114,6 +115,7 @@ public partial class RenderTimer : ComponentBase
         await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
         dbContext.Attach(Timer);
         Timer.ElapsesAt = null;
+        Timer.Remaining = null;
         Timer.NotificationSent = true;
         await dbContext.SaveChangesAsync();
     }
