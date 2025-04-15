@@ -26,4 +26,5 @@ public class EsoDbContext : DbContext
 
     public DbSet<EsoCharacter> Characters { get; set; }
     public DbSet<GenericTimer> Timers { get; set; }
+    public DbSet<UserSettings> UserSettings { get; set; }
 }

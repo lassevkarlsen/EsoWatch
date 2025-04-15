@@ -1,0 +1,33 @@
+﻿@page "/settings/{UserId:guid}"
+@using EsoWatch.Web.Dialogs
+
+<h3>ESO Timers : Settings</h3>
+
+@if (_model != null)
+{
+    <RadzenTemplateForm TItem="Model" Data="_model" Style="width: 600px;" Submit="SaveSettings">
+        <RadzenStack>
+            <RadzenLabel>Account title</RadzenLabel>
+            <RadzenTextBox Name="AccountTitle" @bind-Value="_model.Settings.Title" Style="width: 400px;"/>
+
+            <div style="height: 24px;"></div>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenCheckBox Name="UsePushover" @bind-Value="_model.Settings.UsePushover"/>
+                <RadzenLabel Text="Use Pushover for push-notifications?" Component="UsePushover"/>
+                <RadzenLink Path="https://pushover.net" Target="_blank"><RadzenIcon Icon="info" /></RadzenLink>
+            </RadzenStack>
+            @if (_model.Settings.UsePushover)
+            {
+                <RadzenTextBox Name="PushoverKey" @bind-Value="_model.Settings.PushoverUserKey" ReadOnly="@(!_model.Settings.UsePushover)" Style="width: 420px;"/>
+
+                <RadzenCustomValidator Component="PushoverKey" Validator="_model.IsPushoverkeyValid" Text="Not a valid pushover key"/>
+            }
+
+            <div style="height: 24px;"></div>
+            <RadzenStack Orientation="Orientation.Horizontal">
+                <RadzenButton Text="Save" ButtonType="ButtonType.Submit" />
+                <RadzenButton Text="Cancel" ButtonType="ButtonType.Button" Click="Cancel" />
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenTemplateForm>
+}

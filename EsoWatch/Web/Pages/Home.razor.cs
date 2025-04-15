@@ -20,24 +20,36 @@ public partial class Home : IDisposable
 
     private readonly IDbContextFactory<EsoDbContext> _dbContextFactory;
     private readonly DialogService _dialogService;
+    private readonly NavigationManager _navigationManager;
     private readonly List<EsoCharacter> _characters = [];
     private readonly List<GenericTimer> _timers = [];
 
     private readonly CancellationTokenSource _cts = new();
 
-    public Home(IDbContextFactory<EsoDbContext> dbContextFactory, DialogService dialogService)
+    private UserSettings? _userSettings;
+
+    public Home(IDbContextFactory<EsoDbContext> dbContextFactory, DialogService dialogService, NavigationManager navigationManager)
     {
         _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
+        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
     }
 
     protected override async Task OnParametersSetAsync()
     {
         if (UserId != null)
         {
+            await LoadUserSettingsAsync();
             await RefreshTimersAsync();
             _ = RefreshPeriodicallyAsync(_cts.Token);
         }
+    }
+
+    private async Task LoadUserSettingsAsync()
+    {
+        Assert.That(UserId != null);
+        await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+        _userSettings = await dbContext.UserSettings.FirstOrDefaultAsync(s => s.UserId == UserId) ?? UserSettings.DefaultForUser(UserId.Value);
     }
 
     private async Task RefreshTimersAsync(CancellationToken cancellationToken = default)
@@ -121,5 +133,11 @@ public partial class Home : IDisposable
             await dbContext.SaveChangesAsync();
             await RefreshTimersAsync();
         }
+    }
+
+    private void Configure()
+    {
+        Assert.That(UserId != null);
+        _navigationManager.NavigateTo($"settings/{UserId}");
     }
 }

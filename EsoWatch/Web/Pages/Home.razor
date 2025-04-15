@@ -3,7 +3,7 @@
 @using EsoWatch.Data.Entities
 @using EsoWatch.Web.Components
 
-<h2>ESO Timers</h2>
+<h3>ESO Timers</h3>
 @if (UserId == null) {
     <p>This site runs on a very light-weight authentication system for the time being.</p>
     <p>Since you're visiting it without a user-id, you're seeing this text instead of the actual site.</p>
@@ -21,6 +21,11 @@
 }
 else
 {
+    @if (_userSettings != null)
+    {
+        <RadzenButton Icon="construction" Text="@_userSettings.Title" Click="Configure" Size="ButtonSize.ExtraSmall" Style="margin-bottom: 8px;"/>
+    }
+
     <RadzenFieldset Text="Characters">
         @foreach (EsoCharacter character in _characters)
         {
