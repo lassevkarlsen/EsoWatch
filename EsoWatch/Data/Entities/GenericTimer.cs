@@ -17,6 +17,8 @@ public class GenericTimer
 
     public DateTime? ElapsesAt { get; set; }
 
+    public TimeSpan? Remaining { get; set; }
+
     public required TimeSpan Duration { get; set; }
     public bool NotificationSent { get; set; }
 

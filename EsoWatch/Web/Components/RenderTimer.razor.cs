@@ -57,6 +57,10 @@ public partial class RenderTimer : ComponentBase
                 {
                     await RestartTimerAsync();
                 }
+                else
+                {
+                    await PauseOrUnpauseTimerAsync();
+                }
 
                 break;
 
@@ -73,6 +77,23 @@ public partial class RenderTimer : ComponentBase
                 break;
         }
         StateHasChanged();
+    }
+
+    private async Task PauseOrUnpauseTimerAsync()
+    {
+        Assume.That(Timer != null);
+        await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
+        dbContext.Attach(Timer);
+        if (Timer.Remaining != null)
+        {
+            Timer.ElapsesAt = DateTime.UtcNow + Timer.Remaining.Value;
+            Timer.Remaining = null;
+        }
+        else
+        {
+            Timer.Remaining = Timer.ElapsesAt!.Value - DateTime.UtcNow;
+        }
+        await dbContext.SaveChangesAsync();
     }
 
     private async Task RestartTimerAsync()

@@ -46,7 +46,7 @@ public class NotificationWorker : BackgroundService
         var usersWithPushover = (await dbContext.UserSettings.Where(u => u.UsePushover && u.PushoverUserKey != null && u.PushoverUserKey != "").ToListAsync(stoppingToken)).ToDictionary(u => u.UserId);
 
         DateTime now = DateTime.UtcNow;
-        List<GenericTimer> elapsedTimers = await dbContext.Timers.Where(t => t.ElapsesAt != null && t.ElapsesAt < now && !t.NotificationSent).ToListAsync(stoppingToken);
+        List<GenericTimer> elapsedTimers = await dbContext.Timers.Where(t => t.ElapsesAt != null && t.ElapsesAt < now && !t.NotificationSent && t.Remaining == null).ToListAsync(stoppingToken);
         foreach (GenericTimer timer in elapsedTimers)
         {
             timer.ElapsesAt = null;

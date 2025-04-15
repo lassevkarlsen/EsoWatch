@@ -2,10 +2,11 @@
 {
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Style="margin-bottom: 1rem;">
         @{
-            bool isRunning = Timer.ElapsesAt != null && Timer.ElapsesAt >= DateTime.UtcNow;
-            string caption = isRunning ? TimeLeft() : "[" + TimeLeftFormatter.Format(Timer.Duration) + "]";
+            bool isRunning = Timer.ElapsesAt != null && Timer.ElapsesAt >= DateTime.UtcNow && Timer.Remaining == null;
+            bool isPaused = Timer.Remaining != null;
+            string caption = isRunning ? TimeLeft() : isPaused ? ">> " + TimeLeftFormatter.Format(Timer.Remaining!.Value) + " <<" : "[" + TimeLeftFormatter.Format(Timer.Duration) + "]";
         }
-        <RadzenSplitButton ButtonStyle="@(isRunning ? ButtonStyle.Danger : ButtonStyle.Primary)" Text="@caption" Click="OnClick" Style="width: 200px;">
+        <RadzenSplitButton ButtonStyle="@(isRunning ? ButtonStyle.Danger : isPaused ? ButtonStyle.Success : ButtonStyle.Primary)" Text="@caption" Click="OnClick" Style="width: 200px;">
             <ChildContent>
                 @{
                     var restartCaption = $"Restart timer ({TimeLeftFormatter.Format(Timer.Duration)})";
