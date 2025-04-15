@@ -10,10 +10,9 @@ env:
 
 jobs:
   build-and-test:
-    runs-on: [self-hosted, Linux, ARM64, gandalf]
+    runs-on: [self-hosted, gandalf]
     steps:
       - name: Deploy
-        shell: pwsh
         run: |
           cd /home/lassevk/Apps/EsoWatch
           git fetch
