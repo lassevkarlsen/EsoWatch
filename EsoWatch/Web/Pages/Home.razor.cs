@@ -21,18 +21,23 @@ public partial class Home : IDisposable
     private readonly IDbContextFactory<EsoDbContext> _dbContextFactory;
     private readonly DialogService _dialogService;
     private readonly NavigationManager _navigationManager;
+    private readonly IConfiguration _configuration;
     private readonly List<EsoCharacter> _characters = [];
     private readonly List<GenericTimer> _timers = [];
+    private readonly string _siteUrl;
 
     private readonly CancellationTokenSource _cts = new();
 
     private UserSettings? _userSettings;
 
-    public Home(IDbContextFactory<EsoDbContext> dbContextFactory, DialogService dialogService, NavigationManager navigationManager)
+    public Home(IDbContextFactory<EsoDbContext> dbContextFactory, DialogService dialogService, NavigationManager navigationManager, IConfiguration configuration)
     {
         _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         _dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+        _siteUrl = _configuration["SiteUrl"] ?? "http://localhost:5176/";
     }
 
     protected override async Task OnParametersSetAsync()

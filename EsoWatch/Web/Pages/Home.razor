@@ -10,11 +10,10 @@
     <p>Here is your unique link that you can use. <b><u>This is you!</u></b></p>
     <p><b>REMEMBER TO BOOKMARK THIS LINK!</b></p>
 
-    string localPath = "/" + _freshUserId;
-    string fullPath = "https://eso.vkarlsen.no/" + _freshUserId;
+    string path = _siteUrl + _freshUserId;
 
     <p>
-    <RadzenLink Path="@localPath" Text="@fullPath" Target="_blank" />
+    <RadzenLink Path="@path" Text="@path" Target="_blank" />
     </p>
 
     <i>(this link will open in a new tab so that you don't immediately lose it - <b>remember to bookmark!</b>.</i>
