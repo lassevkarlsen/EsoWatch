@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>16999e95-21f3-4756-a5e1-253e5818d907</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LasseVK.Configuration" Version="1.0.8" />
+      <PackageReference Include="LasseVK.Core" Version="1.0.8" />
+      <PackageReference Include="LasseVK.Pushover" Version="1.0.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+      <PackageReference Include="Radzen.Blazor" Version="6.5.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Web\Dialogs\AddTimerDialog.Model.cs">
+        <DependentUpon>AddTimerDialog.razor</DependentUpon>
+      </Compile>
+      <Compile Update="Web\Dialogs\AddCharacterDialog.Model.cs">
+        <DependentUpon>AddCharacterDialog.razor</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

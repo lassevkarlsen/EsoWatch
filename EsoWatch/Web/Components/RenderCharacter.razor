@@ -1,0 +1,18 @@
+﻿@if (Character != null)
+{
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Style="margin-bottom: 1rem;">
+        @{
+            bool available = Character.DungeonRewardsAvailableAt == null || Character.DungeonRewardsAvailableAt <= DateTime.UtcNow;
+        }
+        <RadzenSplitButton Text="@(available ? "LOOT" : TimeLeft())" Click="OnClick" Style="width: 160px;">
+            <ChildContent>
+                <RadzenSplitButtonItem Text="Delete character" Value="delete" />
+                @if (!available)
+                {
+                    <RadzenSplitButtonItem Text="Reset timer" Value="reset"/>
+                }
+            </ChildContent>
+        </RadzenSplitButton>
+        <RadzenLabel Text="@Character.Name"/>
+    </RadzenStack>
+}

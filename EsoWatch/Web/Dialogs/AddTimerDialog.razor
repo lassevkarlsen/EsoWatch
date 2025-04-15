@@ -1,0 +1,17 @@
+﻿<RadzenTemplateForm TItem="Model" Data="_model" Submit="Add">
+    <RadzenFormField Text="Timer name" class="rz-w-100">
+        <RadzenTextBox Name="TimerName" @bind-Value="@_model.Name" class="rz-w-100" style="display: block;" />
+        <RadzenDataAnnotationValidator Component="TimerName"/>
+    </RadzenFormField>
+
+    <RadzenFormField Text="Duration" class="rz-w-100">
+        <RadzenTextBox Name="TimeLeft" @bind-Value="@_model.TimeLeft" class="rz-w-50" style="display: block;" />
+        <RadzenLabel Text="Format: 10D 2H 3M" />
+        <RadzenDataAnnotationValidator Component="TimeLeft"/>
+    </RadzenFormField>
+
+    <div style="margin-top: 20px;">
+        <RadzenButton Text="Add" ButtonType="ButtonType.Submit"/>
+        <RadzenButton Text="Cancel" ButtonType="ButtonType.Button" Click="Cancel"/>
+    </div>
+</RadzenTemplateForm>

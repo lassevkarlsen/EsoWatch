@@ -1,0 +1,8 @@
+﻿@if (Timer != null)
+{
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Style="margin-bottom: 1rem;">
+        <RadzenButton Icon="delete" Click="DeleteTimerAsync" Style="width: 32px;"/>
+        <RadzenButton Text="@TimeLeft()" disabled="true" Style="width: 150px;"/>
+        <RadzenLabel Text="@Timer.Name"/>
+    </RadzenStack>
+}
