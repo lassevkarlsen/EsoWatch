@@ -11,7 +11,7 @@
                 @{
                     var restartCaption = $"Restart timer ({TimeLeftFormatter.Format(Timer.Duration)})";
                 }
-                @if (isRunning)
+                @if (isRunning || isPaused)
                 {
                     <RadzenSplitButtonItem Text="@restartCaption" Value="restart"/>
                     <RadzenSplitButtonItem Text="Stop timer" Value="stop"/>
