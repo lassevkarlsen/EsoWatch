@@ -13,6 +13,12 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.AddStandardConfigurationSources<Program>();
 builder.Services.AddDbContextFactory<EsoDbContext>();
 
+builder.Services.AddRadzenCookieThemeService(options =>
+{
+    options.Name = "EsoWatchTheme";
+    options.Duration = TimeSpan.FromDays(365);
+});
+
 builder.Services.AddPushoverClient(options =>
 {
     options.DefaultUser = builder.Configuration["Pushover:UserKey"];
