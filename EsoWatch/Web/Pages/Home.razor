@@ -30,14 +30,6 @@ else
         <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="construction" Text="@_userSettings.Title" Click="Configure" Size="ButtonSize.ExtraSmall" Style="margin-bottom: 8px;"/>
     }
 
-    <RadzenFieldset Text="Characters">
-        @foreach (EsoCharacter character in _characters)
-        {
-            <RenderCharacter Character="character"/>
-        }
-        <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="add" Text="Add character" Click="AddNewCharacter" Size="ButtonSize.ExtraSmall"/>
-    </RadzenFieldset>
-
     <RadzenFieldset Text="Timers">
         @foreach (GenericTimer timer in _timers)
         {

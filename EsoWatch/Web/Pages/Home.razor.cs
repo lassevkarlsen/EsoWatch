@@ -22,7 +22,6 @@ public partial class Home : IDisposable
     private readonly DialogService _dialogService;
     private readonly NavigationManager _navigationManager;
     private readonly IConfiguration _configuration;
-    private readonly List<EsoCharacter> _characters = [];
     private readonly List<GenericTimer> _timers = [];
     private readonly string _siteUrl;
 
@@ -62,8 +61,6 @@ public partial class Home : IDisposable
         Assert.That(UserId != null);
         await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        _characters.Clear();
-        _characters.AddRange(await dbContext.Characters.Where(c => c.UserId == UserId).OrderBy(c => c.Name).ToListAsync(cancellationToken: cancellationToken));
         _timers.Clear();
         _timers.AddRange(await dbContext.Timers.Where(t => t.UserId == UserId).OrderBy(t => t.ElapsesAt).ThenBy(t => t.Duration).ToListAsync(cancellationToken: cancellationToken));
     }
@@ -88,30 +85,6 @@ public partial class Home : IDisposable
     {
         _cts.Cancel();
         _cts.Dispose();
-    }
-
-    private async Task AddNewCharacter()
-    {
-        Assume.That(UserId != null);
-
-        dynamic? result = await _dialogService.OpenAsync<AddCharacterDialog>("Add new character", new Dictionary<string, object>
-        {
-            {
-                "UserId", UserId.Value
-            },
-        });
-        if (result is AddCharacterDialog.Model model)
-        {
-            await using EsoDbContext dbContext = await _dbContextFactory.CreateDbContextAsync();
-            var character = new EsoCharacter
-            {
-                Name = model.Name,
-                UserId = UserId.Value,
-            };
-            dbContext.Characters.Add(character);
-            await dbContext.SaveChangesAsync();
-            await RefreshTimersAsync();
-        }
     }
 
     private async Task AddNewTimer()

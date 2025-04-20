@@ -28,9 +28,6 @@
       <Compile Update="Web\Dialogs\AddTimerDialog.Model.cs">
         <DependentUpon>AddTimerDialog.razor</DependentUpon>
       </Compile>
-      <Compile Update="Web\Dialogs\AddCharacterDialog.Model.cs">
-        <DependentUpon>AddCharacterDialog.razor</DependentUpon>
-      </Compile>
       <Compile Update="Web\Pages\Settings.Model.cs">
         <DependentUpon>Settings.razor</DependentUpon>
       </Compile>

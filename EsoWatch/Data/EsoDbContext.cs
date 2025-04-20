@@ -24,7 +24,6 @@ public class EsoDbContext : DbContext
         optionsBuilder.UseNpgsql(connectionString);
     }
 
-    public DbSet<EsoCharacter> Characters { get; set; }
     public DbSet<GenericTimer> Timers { get; set; }
     public DbSet<UserSettings> UserSettings { get; set; }
 }
