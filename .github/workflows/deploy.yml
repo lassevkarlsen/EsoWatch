@@ -20,8 +20,8 @@ jobs:
 
           dotnet build ./EsoWatch.sln
 
-          sudo systemctl stop esowatch
+          sudo /usr/bin/systemctl stop esowatch.service
           dotnet publish EsoWatch/EsoWatch.csproj -o ./run
-          sudo systemctl start esowatch
+          sudo /usr/bin/systemctl start esowatch.service
 
           #pushover "EsoWatch Deployed"
