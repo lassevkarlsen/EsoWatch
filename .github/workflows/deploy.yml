@@ -18,10 +18,10 @@ jobs:
           git fetch
           git merge --ff-only
 
-          /home/lassevk/.dotnet/dotnet build ./EsoWatch.sln
+          dotnet build ./EsoWatch.sln
 
           sudo systemctl stop esowatch
-          /home/lassevk/.dotnet/dotnet publish EsoWatch/EsoWatch.csproj -o ./run
+          dotnet publish EsoWatch/EsoWatch.csproj -o ./run
           sudo systemctl start esowatch
 
           #pushover "EsoWatch Deployed"
