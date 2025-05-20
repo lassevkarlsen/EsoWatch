@@ -59,16 +59,34 @@ h1:focus {
     text-align: start;
 }
 
+
+
 html, body {
-  overscroll-behavior: none;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
   height: 100%;
-  touch-action: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* prevent page bounce */
 }
 
-.scroll-container {
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  height: 60px; /* or whatever you want */
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
   overflow-y: auto;
-  -webkit-overflow-scrolling: auto; /* disables momentum scroll (bounce) */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  padding: 1rem;
 }
